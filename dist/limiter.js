@@ -108,28 +108,28 @@ var Limiter = /*#__PURE__*/function () {
       this.interval = interval;
     }
 
-    this.tokens = this.interval;
     this.tokensRemovedAt = [];
   }
 
   _createClass(Limiter, [{
     key: "dripTokens",
-    value: function dripTokens() {}
+    value: function dripTokens() {
+      throw new Error("dripTokens() not implemented");
+    }
   }, {
     key: "getDelayForTokens",
     value: function getDelayForTokens() {
-      var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      throw new Error("getDelayForTokens() not implemented");
     }
   }, {
     key: "getTokens",
     value: function getTokens() {
       this.dripTokens();
-      return this.tokens;
+      return Math.floor(this.tokens);
     }
   }, {
     key: "tryRemoveTokens",
     value: function tryRemoveTokens(count) {
-      if (count > this.tokensPerInterval) return false;
       this.dripTokens();
       if (count > this.tokens) return false;
       this.tokens -= count;
@@ -148,37 +148,27 @@ var Limiter = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 count = _args.length > 0 && _args[0] !== undefined ? _args[0] : 1;
-
-                if (!(count > this.tokensPerInterval)) {
-                  _context.next = 3;
-                  break;
-                }
-
-                throw new Error("Cannot supply ".concat(count, " tokens"));
-
-              case 3:
-                this.dripTokens();
-
-                if (!(count <= this.tokens)) {
-                  _context.next = 6;
-                  break;
-                }
-
-                return _context.abrupt("return", this.tokens);
-
-              case 6:
                 delayMs = this.getDelayForTokens(count);
-                _context.next = 9;
+
+                if (!(delayMs === 0)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", Math.floor(this.tokens));
+
+              case 4:
+                _context.next = 6;
                 return new Promise(function (resolve) {
                   return setTimeout(function () {
                     return resolve();
                   }, delayMs);
                 });
 
-              case 9:
+              case 6:
                 return _context.abrupt("return", this.awaitTokens(count));
 
-              case 10:
+              case 7:
               case "end":
                 return _context.stop();
             }

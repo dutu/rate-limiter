@@ -1,27 +1,27 @@
 import chai from 'chai'
 const expect = chai.expect
 
-import RollingRateLimiter from '../dist/index.mjs'
+import { RollingWindowLimiter } from '../src'
 
 const delay =  (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
 
 describe("Constructor", function () {
   it('should create a new instance', function () {
-    const limiter = new RollingRateLimiter({ tokensPerInterval: 10, interval: 10 * 1000 })
-    expect(limiter).to.be.an.instanceOf(RollingRateLimiter)
+    const limiter = new RollingWindowLimiter({ tokensPerInterval: 10, interval: 10 * 1000 })
+    expect(limiter).to.be.an.instanceOf(RollingWindowLimiter)
   })
 })
 
 describe("getTokens()", function () {
   it('should return correct number of tokens', function () {
-    const limiter = new RollingRateLimiter({tokensPerInterval: 10, interval: 10 * 1000 })
+    const limiter = new RollingWindowLimiter({tokensPerInterval: 10, interval: 10 * 1000 })
     expect(limiter.getTokens()).to.be.equal(10)
   })
 })
 
 describe("tryRemoveTokens()", function () {
   it('should remove correct number of tokens', function () {
-    const limiter = new RollingRateLimiter({tokensPerInterval: 10, interval: 10 * 1000 })
+    const limiter = new RollingWindowLimiter({tokensPerInterval: 10, interval: 10 * 1000 })
     let removedTokens = limiter.tryRemoveTokens(2)
     expect(removedTokens).to.be.equal(true)
     expect(limiter.getTokens()).to.be.equal(8)
@@ -38,7 +38,7 @@ describe("tryRemoveTokens()", function () {
 
 describe("awaitTokens()", function () {
   it('should await right number of tokens', async function () {
-    const limiter = new RollingRateLimiter({tokensPerInterval: 10, interval: 1000 })
+    const limiter = new RollingWindowLimiter({tokensPerInterval: 10, interval: 1000 })
     let removedTokens = limiter.tryRemoveTokens(2)
     expect(removedTokens).to.be.equal(true)
     expect(limiter.getTokens()).to.be.equal(8)

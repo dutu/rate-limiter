@@ -7,18 +7,17 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "default": "./dist/index.mjs"
+      "default": "./src/index.js"
     }
   },
-  "module": "./dist/index.mjs",
+  "module": "./src/index.js",
   "engines": {
     "node": ">= 6.x"
   },
   "scripts": {
     "test": "mocha",
-    "build": "npm run build:cjs && npm run build:mjs",
+    "build": "npm run build:cjs",
     "build:cjs": "babel src -d dist",
-    "build:mjs": "ncp src/index.js dist/index.mjs",
     "prepublish": "npm run build"
   },
   "repository": "http://github.com/dutu/rate-limiter.git",

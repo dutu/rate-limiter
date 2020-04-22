@@ -34,23 +34,23 @@ export default class Limiter {
       this.interval = interval
     }
 
-    this.tokens = this.interval
     this.tokensRemovedAt = []
   }
 
   dripTokens() {
+    throw new Error(`dripTokens() not implemented`)
   }
 
-  getDelayForTokens(count = 1) {
+  getDelayForTokens() {
+    throw new Error(`getDelayForTokens() not implemented`)
   }
 
   getTokens() {
     this.dripTokens()
-    return this.tokens
+    return Math.floor(this.tokens)
   }
 
   tryRemoveTokens(count) {
-    if (count > this.tokensPerInterval) return false
     this.dripTokens()
     if (count > this.tokens) return false
     this.tokens -= count
@@ -59,17 +59,11 @@ export default class Limiter {
   }
 
   async awaitTokens(count = 1) {
-    if (count > this.tokensPerInterval) {
-      throw new Error(`Cannot supply ${count} tokens`)
-    }
-
-    this.dripTokens()
-
-    if(count <= this.tokens) {
-      return this.tokens
-    }
-
     let delayMs = this.getDelayForTokens(count)
+    if (delayMs === 0) {
+      return Math.floor(this.tokens)
+    }
+
     await new Promise((resolve) => setTimeout(() => resolve(), delayMs))
     return this.awaitTokens(count)
   }

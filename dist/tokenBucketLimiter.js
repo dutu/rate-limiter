@@ -29,80 +29,6 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-function _createForOfIteratorHelper(o) {
-  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-    if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {
-      var i = 0;
-
-      var F = function F() {};
-
-      return {
-        s: F,
-        n: function n() {
-          if (i >= o.length) return {
-            done: true
-          };
-          return {
-            done: false,
-            value: o[i++]
-          };
-        },
-        e: function e(_e) {
-          throw _e;
-        },
-        f: F
-      };
-    }
-
-    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-
-  var it,
-      normalCompletion = true,
-      didErr = false,
-      err;
-  return {
-    s: function s() {
-      it = o[Symbol.iterator]();
-    },
-    n: function n() {
-      var step = it.next();
-      normalCompletion = step.done;
-      return step;
-    },
-    e: function e(_e2) {
-      didErr = true;
-      err = _e2;
-    },
-    f: function f() {
-      try {
-        if (!normalCompletion && it["return"] != null) it["return"]();
-      } finally {
-        if (didErr) throw err;
-      }
-    }
-  };
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -202,54 +128,50 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-var RollingWindowLimiter = /*#__PURE__*/function (_Limiter) {
-  _inherits(RollingWindowLimiter, _Limiter);
+var TokenBucketLimiter = /*#__PURE__*/function (_Limiter) {
+  _inherits(TokenBucketLimiter, _Limiter);
 
-  var _super = _createSuper(RollingWindowLimiter);
+  var _super = _createSuper(TokenBucketLimiter);
 
-  function RollingWindowLimiter(_ref) {
+  function TokenBucketLimiter(_ref) {
     var _this;
 
-    var tokensPerInterval = _ref.tokensPerInterval,
+    var bucketSize = _ref.bucketSize,
+        tokensPerInterval = _ref.tokensPerInterval,
         interval = _ref.interval;
 
-    _classCallCheck(this, RollingWindowLimiter);
+    _classCallCheck(this, TokenBucketLimiter);
 
     _this = _super.call(this, {
       tokensPerInterval: tokensPerInterval,
       interval: interval
     });
-    _this.tokens = _this.tokensPerInterval;
+    _this.bucketSize = bucketSize; // we start with the bucket full
+
+    _this.tokens = _this.bucketSize; // last drip
+
+    _this.tokensRemovedAt = [Date.now()];
     return _this;
   }
 
-  _createClass(RollingWindowLimiter, [{
+  _createClass(TokenBucketLimiter, [{
     key: "dripTokens",
     value: function dripTokens() {
       var now = Date.now();
-
-      while (this.tokensRemovedAt.length > 0) {
-        if (this.tokensRemovedAt[0][0] + this.interval > now) {
-          break;
-        }
-
-        this.tokens += this.tokensRemovedAt[0][1];
-        this.tokensRemovedAt.shift();
-      }
-
-      if (this.tokens > this.tokensPerInterval) {
-        this.tokens = this.tokensPerInterval;
-      }
-
-      return this.tokens;
+      var lastDrip = this.tokensRemovedAt[0];
+      var deltaMs = Math.max(now - lastDrip, 0);
+      this.tokensRemovedAt = [now];
+      var tokensToAdd = deltaMs * (this.tokensPerInterval / this.interval);
+      this.tokens = Math.min(this.tokens + tokensToAdd, this.bucketSize);
+      return Math.floor(this.tokens);
     }
   }, {
     key: "getDelayForTokens",
     value: function getDelayForTokens() {
       var count = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      if (count > this.tokensPerInterval) {
-        throw new Error("Cannot supply ".concat(count, " tokens at once (max is tokensPerInterval = ").concat(this.tokensPerInterval));
+      if (count > this.bucketSize) {
+        throw new Error("Cannot supply ".concat(count, " tokens at once (max is bucketSize = ").concat(this.bucketSize));
       }
 
       this.dripTokens();
@@ -259,31 +181,12 @@ var RollingWindowLimiter = /*#__PURE__*/function (_Limiter) {
         return 0;
       }
 
-      var now = Date.now();
-
-      var _iterator = _createForOfIteratorHelper(this.tokensRemovedAt),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var newTokens = _step.value;
-          tokensNeeded -= newTokens[1];
-
-          if (tokensNeeded <= 0) {
-            var delayMs = newTokens[0] + this.interval - now;
-            return delayMs;
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
+      return Math.ceil(tokensNeeded * (this.interval / this.tokensPerInterval));
     }
   }]);
 
-  return RollingWindowLimiter;
+  return TokenBucketLimiter;
 }(_limiter["default"]);
 
-exports["default"] = RollingWindowLimiter;
-//# sourceMappingURL=rollingWindowLimiter.js.map
+exports["default"] = TokenBucketLimiter;
+//# sourceMappingURL=tokenBucketLimiter.js.map

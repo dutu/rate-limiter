@@ -1,7 +1,7 @@
 rolling-rate-limiter
 ====
 
-**rolling-rate-limiter** is an implementation of a rate limiter in node.js that allows for rate limiting with a rolling window
+**@dutu/rate-limiter** is an implementation of a rate limiter that supports rolling window and token bucket
 
 # Changelog
 
@@ -10,8 +10,24 @@ See detailed [Changelog](CHANGELOG.md)
 # Installation
 
 ```
-npm install --save "git+https://github.com/dutu/rolling-rate-limiter.git"
+npm install --save "git+https://github.com/dutu/rate-limiter.git"
 ```
+
+
+## Rate-limiting Algorithms
+
+### Rolling Window
+
+```js
+  const limiter  = new RollingWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
+```
+
+### Token bucket
+
+```js
+  const limiter  = new TokenBucketLimiter({ bucketSize: 10, tokensPerInterval: 1, interval: 'second' })
+```
+
 
 # Quick examples
 
