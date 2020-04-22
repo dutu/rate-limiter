@@ -1,7 +1,7 @@
 import chai from 'chai'
 const expect = chai.expect
 
-import RollingRateLimiter from '../dist'
+import RollingRateLimiter from '../dist/index.mjs'
 
 const delay =  (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
 

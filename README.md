@@ -17,7 +17,7 @@ npm install --save "git+https://github.com/dutu/rolling-rate-limiter.git"
 
 ```js
 async function testToken() {
-  const limiter  = new RollingRateLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
+  const limiter  = new RollingWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
   debug(limiter.getTokens())
   debug(limiter.tryRemoveTokens(10))
   debug(limiter.tryRemoveTokens(32))

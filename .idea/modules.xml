@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/rolling-rate-limiter.iml" filepath="$PROJECT_DIR$/.idea/rolling-rate-limiter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/rate-limiter.iml" filepath="$PROJECT_DIR$/.idea/rate-limiter.iml" />
     </modules>
   </component>
 </project>
