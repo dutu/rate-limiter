@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _limiter = _interopRequireDefault(require("./limiter"));
+var _limiter = _interopRequireDefault(require("./limiter.mjs"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {

@@ -1,7 +1,7 @@
 import chai from 'chai'
 const expect = chai.expect
 
-import { TokenBucketLimiter } from '../src'
+import { TokenBucketLimiter } from '../src/index'
 
 
 const delay =  (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))

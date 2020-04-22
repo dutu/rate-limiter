@@ -1,4 +1,4 @@
-import Limiter from './limiter'
+import Limiter from './limiter.mjs'
 
 export default class RollingWindowLimiter extends Limiter {
   constructor ({ tokensPerInterval, interval }) {

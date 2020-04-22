@@ -1,7 +1,7 @@
 import chai from 'chai'
 const expect = chai.expect
 
-import { RollingWindowLimiter } from '../src'
+import { RollingWindowLimiter } from '../src/index'
 
 const delay =  (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
 

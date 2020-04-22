@@ -7,10 +7,10 @@
   "exports": {
     ".": {
       "require": "./dist/index.js",
-      "default": "./src/index.js"
+      "default": "./src/index.mjs"
     }
   },
-  "module": "./src/index.js",
+  "module": "./src/index.mjs",
   "engines": {
     "node": ">= 6.x"
   },

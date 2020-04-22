@@ -16,13 +16,9 @@ Object.defineProperty(exports, "TokenBucketLimiter", {
   }
 });
 
-var _rollingWindowLimiter = _interopRequireDefault(require("./rollingWindowLimiter"));
+var _rollingWindowLimiter = _interopRequireDefault(require("./rollingWindowLimiter.js"));
 
-var _tokenBucketLimiter = _interopRequireDefault(require("./tokenBucketLimiter"));
+var _tokenBucketLimiter = _interopRequireDefault(require("./tokenBucketLimiter.js"));
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 //# sourceMappingURL=index.js.map
