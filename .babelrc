@@ -1,0 +1,12 @@
+{
+  "sourceMaps": "both",
+  "presets": [
+    [
+      "@babel/preset-env",
+      { "targets": { "node": "current" } }
+    ]
+  ],
+  "ignore": [
+    ".mocharc.js"
+  ]
+}

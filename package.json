@@ -1,0 +1,45 @@
+{
+  "name": "@dutu/rate-limiter",
+  "version": "1.0.0",
+  "description": "Rate limiter",
+  "type": "commonjs",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "engines": {
+    "node": ">= 6.x"
+  },
+  "scripts": {
+    "test": "mocha",
+    "build": "npm run build:cjs && npm run build:mjs",
+    "build:cjs": "babel src -d dist",
+    "build:mjs": "ncp src/index.js dist/index.mjs",
+    "prepublish": "npm run build"
+  },
+  "repository": "http://github.com/dutu/rate-limiter.git",
+  "keywords": [
+    "rate limiter",
+    "rolling rate",
+    "rolling window",
+    "sliding window",
+    "token bucket"
+  ],
+  "author": "dutu <dutu@protonmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/dutu/rate-limiter",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "ncp": "^2.0.0"
+  },
+  "dependencies": {}
+}
