@@ -1,4 +1,4 @@
-export default class Limiter {
+export default class RateLimiter {
   constructor ({ tokensPerInterval, interval }) {
     this.tokensPerInterval = tokensPerInterval
     if (typeof interval === 'string') {

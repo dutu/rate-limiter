@@ -1,6 +1,6 @@
-import Limiter from './limiter.mjs'
+import RateLimiter from './rateLimiter.mjs'
 
-export default class TokenBucketLimiter extends Limiter {
+export default class TokenBucketLimiter extends RateLimiter {
   constructor ({ bucketSize, tokensPerInterval, interval }) {
     super({ tokensPerInterval, interval })
 
