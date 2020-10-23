@@ -1,18 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _limiter = _interopRequireDefault(require("./limiter.mjs"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -76,11 +63,13 @@ function _setPrototypeOf(o, p) {
 }
 
 function _createSuper(Derived) {
-  return function () {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
     var Super = _getPrototypeOf(Derived),
         result;
 
-    if (_isNativeReflectConstruct()) {
+    if (hasNativeReflectConstruct) {
       var NewTarget = _getPrototypeOf(this).constructor;
 
       result = Reflect.construct(Super, arguments, NewTarget);
@@ -128,8 +117,21 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-var TokenBucketLimiter = /*#__PURE__*/function (_Limiter) {
-  _inherits(TokenBucketLimiter, _Limiter);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter.mjs"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
+var TokenBucketLimiter = /*#__PURE__*/function (_rateLimiter$default) {
+  _inherits(TokenBucketLimiter, _rateLimiter$default);
 
   var _super = _createSuper(TokenBucketLimiter);
 
@@ -186,7 +188,7 @@ var TokenBucketLimiter = /*#__PURE__*/function (_Limiter) {
   }]);
 
   return TokenBucketLimiter;
-}(_limiter["default"]);
+}(_rateLimiter["default"]);
 
 exports["default"] = TokenBucketLimiter;
 //# sourceMappingURL=tokenBucketLimiter.js.map
