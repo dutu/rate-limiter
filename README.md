@@ -28,7 +28,7 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
   const limiter  = new FixedWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
 ```
 
-> The Reservoir Interval starts from the moment the limiter is created.
+> The Reservoir Interval starts from the moment `dripTokens()` is called for the first time.
 
 
 
