@@ -22,6 +22,16 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
   const limiter  = new RollingWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
 ```
 
+### Fixed Window
+
+```js
+  const limiter  = new FixedWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
+```
+
+> The Reservoir Interval starts from the moment the limiter is created.
+
+
+
 ### Token bucket
 
 ```js
