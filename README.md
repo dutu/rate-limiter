@@ -5,14 +5,15 @@ rolling-rate-limiter
 
 # Changelog
 
-See detailed [Changelog](CHANGELOG.md)
+The module adheres to [Semantic Versioning](http://semver.org/).
+
+See [github releases](https://github.com/dutu/rate-limiter/releases), where all notable changes are documented.
 
 # Installation
 
 ```
 npm install --save "git+https://github.com/dutu/rate-limiter.git"
 ```
-
 
 ## Rate-limiting Algorithms
 
@@ -29,7 +30,6 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
 ```
 
 > The Reservoir Interval starts from the moment `dripTokens()` is called for the first time.
-
 
 
 ### Token bucket
