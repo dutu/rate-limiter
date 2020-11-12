@@ -1,6 +1,6 @@
 {
   "name": "@dutu/rate-limiter",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Rate limiter",
   "type": "commonjs",
   "main": "./dist/index.js",
@@ -18,8 +18,7 @@
     "test": "mocha",
     "build": "npm run build:cjs",
     "build:cjs": "babel src -d dist",
-    "prepublish": "npm run build",
-    "heroku-postbuild": "echo Do nothing"
+    "prepublish": "in-publish && npm run build || echo Do nothing"
   },
   "repository": "http://github.com/dutu/rate-limiter.git",
   "keywords": [
@@ -39,8 +38,8 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
     "chai": "^4.2.0",
-    "mocha": "^8.2.0",
+    "in-publish": "^2.0.1",
+    "mocha": "^8.2.1",
     "ncp": "^2.0.0"
-  },
-  "dependencies": {}
+  }
 }
