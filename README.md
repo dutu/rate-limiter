@@ -15,6 +15,8 @@ See [github releases](https://github.com/dutu/rate-limiter/releases), where all 
 npm install --save "git+https://github.com/dutu/rate-limiter.git"
 ```
 
+# Usage
+
 ## Rate-limiting Algorithms
 
 ### Rolling Window
@@ -29,7 +31,7 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
   const limiter  = new FixedWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
 ```
 
-> The Reservoir Interval starts from the moment `dripTokens()` is called for the first time.
+> The Reservoir Interval starts from the moment `getTokens()` is called for the first time.
 
 
 ### Token bucket
@@ -38,8 +40,25 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
   const limiter  = new TokenBucketLimiter({ bucketSize: 10, tokensPerInterval: 1, interval: 'second' })
 ```
 
+## Methods
 
-# Quick examples
+### `tryRemoveTokens(count)`
+
+Tries to remove a number af tokens and returns immediately a boolean value indicating if the token removal was successful. 
+
+### `getTokens()`
+
+Returns the number of available tokens
+
+### `getDelayForTokens(count = 1)`
+
+Returns the number of milliseconds until the time when the number of specified tokens will be available. 
+
+### `async awaitTokens(count = 1)`
+
+Asynchronous method which resolves when the numbers of specified tokens become available.
+
+## Quick examples
 
 ```js
 async function testToken() {
