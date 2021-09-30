@@ -17,6 +17,18 @@ npm install --save "git+https://github.com/dutu/rate-limiter.git"
 
 # Usage
 
+```js
+import { RollingWindowLimiter } from '@dutu/rate-limiter'
+import { TokenBucketLimiter } from '@dutu/rate-limiter'
+import { FixedWindowLimiter } from '@dutu/rate-limiter'
+```
+or
+```js
+const RollingWindowLimiter = require('@dutu/rate-limiter').RollingWindowLimiter
+const TokenBucketLimiter = require('@dutu/rate-limiter').TokenBucketLimiter
+const FixedWindowLimiter = require('@dutu/rate-limiter').FixedWindowLimiter
+```
+
 ## Rate-limiting Algorithms
 
 ### Rolling Window
@@ -61,6 +73,8 @@ Asynchronous method which resolves when the numbers of specified tokens become a
 ## Quick examples
 
 ```js
+import { RollingWindowLimiter } from '@dutu/rate-limiter'
+
 async function testToken() {
   const limiter  = new RollingWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
   debug(limiter.getTokens())
@@ -68,7 +82,7 @@ async function testToken() {
   debug(limiter.tryRemoveTokens(32))
   debug(limiter.getTokens())
   
-await new Promise((resolve) => setTimeout(() => resolve(), 2000))
+  await new Promise((resolve) => setTimeout(() => resolve(), 2000))
   debug(limiter.tryRemoveTokens(10))
   debug(limiter.getTokens())
 

@@ -16,6 +16,19 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RollingWindowLimiter = void 0;
+
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter.js"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
 function _createForOfIteratorHelper(o, allowArrayLike) {
   var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
 
@@ -195,21 +208,8 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _rateLimiter = _interopRequireDefault(require("./rateLimiter"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-var RollingWindowLimiter = /*#__PURE__*/function (_rateLimiter$default) {
-  _inherits(RollingWindowLimiter, _rateLimiter$default);
+var RollingWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
+  _inherits(RollingWindowLimiter, _RateLimiter);
 
   var _super = _createSuper(RollingWindowLimiter);
 
@@ -291,5 +291,5 @@ var RollingWindowLimiter = /*#__PURE__*/function (_rateLimiter$default) {
   return RollingWindowLimiter;
 }(_rateLimiter["default"]);
 
-exports["default"] = RollingWindowLimiter;
+exports.RollingWindowLimiter = RollingWindowLimiter;
 //# sourceMappingURL=rollingWindowLimiter.js.map

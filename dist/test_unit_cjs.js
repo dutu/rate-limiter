@@ -10,7 +10,7 @@ function _interopRequireDefault(obj) {
 
 var expect = _chai["default"].expect;
 
-var RollingWindowLimiter = require('../dist/index').RollingWindowLimiter;
+var RollingWindowLimiter = require('../index.js').RollingWindowLimiter;
 
 var delay = function delay(ms) {
   return new Promise(function (resolve) {
@@ -29,4 +29,4 @@ describe("Constructor", function () {
     expect(limiter).to.be.an.instanceOf(RollingWindowLimiter);
   });
 });
-//# sourceMappingURL=unitTest_cjs.js.map
+//# sourceMappingURL=test_unit_cjs.js.map

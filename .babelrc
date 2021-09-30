@@ -7,6 +7,8 @@
     ]
   ],
   "ignore": [
-    ".mocharc.js"
+    ".mocharc.js",
+    "index.js",
+    "index.mjs"
   ]
 }

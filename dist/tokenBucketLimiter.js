@@ -16,6 +16,19 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TokenBucketLimiter = void 0;
+
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter.js"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -119,21 +132,8 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _rateLimiter = _interopRequireDefault(require("./rateLimiter"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-var TokenBucketLimiter = /*#__PURE__*/function (_rateLimiter$default) {
-  _inherits(TokenBucketLimiter, _rateLimiter$default);
+var TokenBucketLimiter = /*#__PURE__*/function (_RateLimiter) {
+  _inherits(TokenBucketLimiter, _RateLimiter);
 
   var _super = _createSuper(TokenBucketLimiter);
 
@@ -192,5 +192,5 @@ var TokenBucketLimiter = /*#__PURE__*/function (_rateLimiter$default) {
   return TokenBucketLimiter;
 }(_rateLimiter["default"]);
 
-exports["default"] = TokenBucketLimiter;
+exports.TokenBucketLimiter = TokenBucketLimiter;
 //# sourceMappingURL=tokenBucketLimiter.js.map

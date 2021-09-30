@@ -1,7 +1,7 @@
 import chai from 'chai'
 const expect = chai.expect
 
-import { FixedWindowLimiter } from '../src/index'
+import { FixedWindowLimiter } from '../index.mjs'
 
 const delay =  (ms) => new Promise((resolve) => setTimeout(() => resolve(), ms))
 

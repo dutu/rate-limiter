@@ -1,6 +1,6 @@
-import RateLimiter from './rateLimiter'
+import RateLimiter from './rateLimiter.js'
 
-export default class FixedWindowLimiter extends RateLimiter {
+export class FixedWindowLimiter extends RateLimiter {
   constructor({tokensPerInterval, interval}) {
     super({tokensPerInterval, interval})
     this.nextDripAt = 0

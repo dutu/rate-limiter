@@ -16,6 +16,19 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FixedWindowLimiter = void 0;
+
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter.js"));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -119,21 +132,8 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _rateLimiter = _interopRequireDefault(require("./rateLimiter"));
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-var FixedWindowLimiter = /*#__PURE__*/function (_rateLimiter$default) {
-  _inherits(FixedWindowLimiter, _rateLimiter$default);
+var FixedWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
+  _inherits(FixedWindowLimiter, _RateLimiter);
 
   var _super = _createSuper(FixedWindowLimiter);
 
@@ -187,5 +187,5 @@ var FixedWindowLimiter = /*#__PURE__*/function (_rateLimiter$default) {
   return FixedWindowLimiter;
 }(_rateLimiter["default"]);
 
-exports["default"] = FixedWindowLimiter;
+exports.FixedWindowLimiter = FixedWindowLimiter;
 //# sourceMappingURL=fixedWindowLimiter.js.map
