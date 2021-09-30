@@ -23,13 +23,13 @@ Object.defineProperty(exports, "FixedWindowLimiter", {
 });
 exports["default"] = void 0;
 
-var _rateLimiter = _interopRequireDefault(require("./rateLimiter.mjs"));
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter"));
 
-var _rollingWindowLimiter = _interopRequireDefault(require("./rollingWindowLimiter.mjs"));
+var _rollingWindowLimiter = _interopRequireDefault(require("./rollingWindowLimiter"));
 
-var _tokenBucketLimiter = _interopRequireDefault(require("./tokenBucketLimiter.mjs"));
+var _tokenBucketLimiter = _interopRequireDefault(require("./tokenBucketLimiter"));
 
-var _fixedWindowLimiter = _interopRequireDefault(require("./fixedWindowLimiter.mjs"));
+var _fixedWindowLimiter = _interopRequireDefault(require("./fixedWindowLimiter"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {

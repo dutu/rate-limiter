@@ -1,4 +1,4 @@
-import RateLimiter from './rateLimiter.mjs'
+import RateLimiter from './rateLimiter'
 
 export default class RollingWindowLimiter extends RateLimiter {
   constructor ({ tokensPerInterval, interval }) {

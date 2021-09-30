@@ -124,7 +124,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _rateLimiter = _interopRequireDefault(require("./rateLimiter.mjs"));
+var _rateLimiter = _interopRequireDefault(require("./rateLimiter"));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {

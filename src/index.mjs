@@ -1,5 +1,5 @@
-import RateLimiter from './rateLimiter.mjs'
-export { default as RollingWindowLimiter } from './rollingWindowLimiter.mjs'
-export { default as TokenBucketLimiter } from './tokenBucketLimiter.mjs'
-export { default as FixedWindowLimiter } from './fixedWindowLimiter.mjs'
+import RateLimiter from './rateLimiter'
+export { default as RollingWindowLimiter } from './rollingWindowLimiter'
+export { default as TokenBucketLimiter } from './tokenBucketLimiter'
+export { default as FixedWindowLimiter } from './fixedWindowLimiter'
 export default RateLimiter
