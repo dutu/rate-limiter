@@ -1,7 +1,7 @@
-rolling-rate-limiter
+rate-limiter
 ====
 
-**@dutu/rate-limiter** is an implementation of a rate limiter that supports rolling window and token bucket
+**@dutu/rate-limiter** is an implementation of a rate limiter that supports token bucket, rolling window and fixed window 
 
 # Changelog
 
