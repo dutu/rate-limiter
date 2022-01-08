@@ -70,6 +70,10 @@ Returns the number of milliseconds until the time when the number of specified t
 
 Asynchronous method which resolves when the numbers of specified tokens become available.
 
+### `reset()`
+
+Reinitializes the rate limiter.
+
 ## Quick examples
 
 ```js

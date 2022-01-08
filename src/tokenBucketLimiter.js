@@ -37,4 +37,9 @@ export class TokenBucketLimiter extends RateLimiter {
 
     return Math.ceil(tokensNeeded * (this.interval / this.tokensPerInterval))
   }
+
+  reset() {
+    this.tokens = this.bucketSize
+    this.tokensRemovedAt = [Date.now()]
+  }
 }

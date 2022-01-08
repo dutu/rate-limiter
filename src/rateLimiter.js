@@ -67,5 +67,9 @@ export default class RateLimiter {
     await new Promise((resolve) => setTimeout(() => resolve(), delayMs))
     return this.awaitTokens(count)
   }
+
+  reset() {
+    this.tokensRemovedAt = []
+  }
 }
 

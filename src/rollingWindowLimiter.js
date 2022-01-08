@@ -44,4 +44,9 @@ export class RollingWindowLimiter extends RateLimiter {
       }
     }
   }
+
+  reset() {
+    this.tokensRemovedAt = []
+    this.tokens = this.tokensPerInterval
+  }
 }
