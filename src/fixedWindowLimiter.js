@@ -37,6 +37,11 @@ export class FixedWindowLimiter extends RateLimiter {
     return this.nextDripAt - Date.now()
   }
 
+  start() {
+    super.start()
+    this.dripTokens()
+  }
+
   reset() {
     this._isStopped = false
     this.nextDripAt = 0

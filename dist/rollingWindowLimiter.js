@@ -258,7 +258,7 @@ var RollingWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
       interval: interval,
       stopped: stopped
     });
-    _this.tokens = _this.tokensPerInterval;
+    _this.tokens = stopped ? 0 : _this.tokensPerInterval;
     return _this;
   }
 

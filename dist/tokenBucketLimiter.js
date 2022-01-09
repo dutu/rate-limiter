@@ -183,11 +183,9 @@ var TokenBucketLimiter = /*#__PURE__*/function (_RateLimiter) {
       interval: interval,
       stopped: stopped
     });
-    _this.bucketSize = bucketSize; // we start with the bucket full
-
-    _this.tokens = _this.bucketSize; // last drip
-
-    _this.tokensRemovedAt = [Date.now()];
+    _this.bucketSize = bucketSize;
+    _this.tokens = stopped ? 0 : _this.bucketSize;
+    _this.tokensRemovedAt = stopped ? [0] : [Date.now()];
     return _this;
   }
 

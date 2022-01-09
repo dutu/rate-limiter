@@ -3,15 +3,9 @@ import RateLimiter from './rateLimiter.js'
 export class TokenBucketLimiter extends RateLimiter {
   constructor ({ bucketSize, tokensPerInterval, interval, stopped = false }) {
     super({ tokensPerInterval, interval, stopped })
-
     this.bucketSize = bucketSize
-
-    // we start with the bucket full
-    this.tokens = this.bucketSize
-
-    // last drip
-    this.tokensRemovedAt = [Date.now()]
-
+    this.tokens = stopped ? 0 : this.bucketSize
+    this.tokensRemovedAt = stopped ? [0] : [Date.now()]
   }
 
   dripTokens() {

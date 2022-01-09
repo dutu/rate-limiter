@@ -224,6 +224,13 @@ var FixedWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
       return this.nextDripAt - Date.now();
     }
   }, {
+    key: "start",
+    value: function start() {
+      _get(_getPrototypeOf(FixedWindowLimiter.prototype), "start", this).call(this);
+
+      this.dripTokens();
+    }
+  }, {
     key: "reset",
     value: function reset() {
       this._isStopped = false;

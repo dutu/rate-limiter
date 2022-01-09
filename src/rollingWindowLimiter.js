@@ -3,7 +3,7 @@ import RateLimiter from './rateLimiter.js'
 export class RollingWindowLimiter extends RateLimiter {
   constructor ({ tokensPerInterval, interval, stopped = false }) {
     super({ tokensPerInterval, interval, stopped })
-    this.tokens = this.tokensPerInterval
+    this.tokens = stopped ? 0 : this.tokensPerInterval
   }
 
   dripTokens() {
