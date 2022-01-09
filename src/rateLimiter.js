@@ -1,6 +1,7 @@
 export default class RateLimiter {
-  constructor ({ tokensPerInterval, interval }) {
+  constructor ({ tokensPerInterval, interval, stopped }) {
     this.tokensPerInterval = tokensPerInterval
+    this._isStopped = stopped
     if (typeof interval === 'string') {
       switch (interval) {
         case 'sec':
@@ -35,6 +36,7 @@ export default class RateLimiter {
     }
 
     this.tokensRemovedAt = []
+    this.awaitingRestart = new Set()
   }
 
   dripTokens() {
@@ -52,13 +54,20 @@ export default class RateLimiter {
 
   tryRemoveTokens(count) {
     this.dripTokens()
-    if (count > this.tokens) return false
+    if (count > this.tokens) {
+      return false
+    }
+
     this.tokens -= count
     this.tokensRemovedAt.push([Date.now(), count])
     return true
   }
 
   async awaitTokens(count = 1) {
+    if (this._isStopped) {
+      await new Promise((resolve) => this.awaitingRestart.add(resolve))
+    }
+
     let delayMs = this.getDelayForTokens(count)
     if (delayMs === 0) {
       return Math.floor(this.tokens)
@@ -69,7 +78,22 @@ export default class RateLimiter {
   }
 
   reset() {
-    this.tokensRemovedAt = []
+    this.awaitingRestart.forEach((resolve) => resolve())
+  }
+
+  stop(empty = true) {
+    this._isStopped = true
+    if (empty) {
+      this.tryRemoveTokens(this.getTokens())
+    }
+  }
+
+  restart() {
+    this._isStopped = false
+  }
+
+  get isStopped() {
+    return this._isStopped
   }
 }
 

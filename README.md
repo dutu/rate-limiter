@@ -34,13 +34,13 @@ const FixedWindowLimiter = require('@dutu/rate-limiter').FixedWindowLimiter
 ### Rolling Window
 
 ```js
-  const limiter  = new RollingWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
+  const limiter  = new RollingWindowLimiter({ tokensPerInterval, interval, stopped = false })
 ```
 
 ### Fixed Window
 
 ```js
-  const limiter  = new FixedWindowLimiter({ tokensPerInterval: 20, interval: 1000 * 10 })
+const limiter  = new FixedWindowLimiter({ tokensPerInterval, interval, stopped = false })
 ```
 
 > The Reservoir Interval starts from the moment `getTokens()` is called for the first time.
@@ -49,8 +49,15 @@ const FixedWindowLimiter = require('@dutu/rate-limiter').FixedWindowLimiter
 ### Token bucket
 
 ```js
-  const limiter  = new TokenBucketLimiter({ bucketSize: 10, tokensPerInterval: 1, interval: 'second' })
+const limiter  = new TokenBucketLimiter({ bucketSize, tokensPerInterval, interval, stopped = false })
 ```
+
+> The rate limiter can be created with initial state 'stopped' and with no tokens, by specifying the parameter `stopped` set to `true` (default is `false`). When stopped, the rate limiter needs to be restarted by calling the method `restart()` 
+
+## Properties
+
+### `isStopped`
+Boolean value indicating if the rate limiter is stopped. 
 
 ## Methods
 
@@ -64,15 +71,24 @@ Returns the number of available tokens
 
 ### `getDelayForTokens(count = 1)`
 
-Returns the number of milliseconds until the time when the number of specified tokens will be available. 
+Returns the number of milliseconds until the time when `count` tokens will be available. If the tokens are immediately available, it returns `0` (zero).
+If the rate limiter is stopped and the tokens are not immediately available, the method returns `undefined`.
 
 ### `async awaitTokens(count = 1)`
 
-Asynchronous method which resolves when the numbers of specified tokens become available.
+Returns a promise which resolves when `count` tokens become available. If the rate limiter is stopped, the promise resolves after the rate limiter is restarted and the tokens are available.
 
 ### `reset()`
 
-Reinitializes the rate limiter.
+Reinitializes the rate limiter, the reservoir is set to the initial size. If the limiter has been previously stopped, it is restarted.
+
+### `stop(empty = true)`
+
+Stops the rate limiter. Rate limiter will add no more tokens. If parameter `false` is specified, the existing tokens can still be used until exhausted. 
+
+### `restart()`
+
+Restarts the rate limiter. Adding new tokens is resumed.
 
 ## Quick examples
 

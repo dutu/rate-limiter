@@ -5,75 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  Object.defineProperty(Constructor, "prototype", {
-    writable: false
-  });
-  return Constructor;
-}
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 var RateLimiter = /*#__PURE__*/function () {
   function RateLimiter(_ref) {
     var tokensPerInterval = _ref.tokensPerInterval,
-        interval = _ref.interval;
+        interval = _ref.interval,
+        stopped = _ref.stopped;
 
     _classCallCheck(this, RateLimiter);
 
     this.tokensPerInterval = tokensPerInterval;
+    this._isStopped = stopped;
 
     if (typeof interval === 'string') {
       switch (interval) {
@@ -112,6 +63,7 @@ var RateLimiter = /*#__PURE__*/function () {
     }
 
     this.tokensRemovedAt = [];
+    this.awaitingRestart = new Set();
   }
 
   _createClass(RateLimiter, [{
@@ -134,7 +86,11 @@ var RateLimiter = /*#__PURE__*/function () {
     key: "tryRemoveTokens",
     value: function tryRemoveTokens(count) {
       this.dripTokens();
-      if (count > this.tokens) return false;
+
+      if (count > this.tokens) {
+        return false;
+      }
+
       this.tokens -= count;
       this.tokensRemovedAt.push([Date.now(), count]);
       return true;
@@ -143,6 +99,8 @@ var RateLimiter = /*#__PURE__*/function () {
     key: "awaitTokens",
     value: function () {
       var _awaitTokens = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this = this;
+
         var count,
             delayMs,
             _args = arguments;
@@ -151,27 +109,39 @@ var RateLimiter = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 count = _args.length > 0 && _args[0] !== undefined ? _args[0] : 1;
+
+                if (!this._isStopped) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _context.next = 4;
+                return new Promise(function (resolve) {
+                  return _this.awaitingRestart.add(resolve);
+                });
+
+              case 4:
                 delayMs = this.getDelayForTokens(count);
 
                 if (!(delayMs === 0)) {
-                  _context.next = 4;
+                  _context.next = 7;
                   break;
                 }
 
                 return _context.abrupt("return", Math.floor(this.tokens));
 
-              case 4:
-                _context.next = 6;
+              case 7:
+                _context.next = 9;
                 return new Promise(function (resolve) {
                   return setTimeout(function () {
                     return resolve();
                   }, delayMs);
                 });
 
-              case 6:
+              case 9:
                 return _context.abrupt("return", this.awaitTokens(count));
 
-              case 7:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -188,7 +158,29 @@ var RateLimiter = /*#__PURE__*/function () {
   }, {
     key: "reset",
     value: function reset() {
-      this.tokensRemovedAt = [];
+      this.awaitingRestart.forEach(function (resolve) {
+        return resolve();
+      });
+    }
+  }, {
+    key: "stop",
+    value: function stop() {
+      var empty = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      this._isStopped = true;
+
+      if (empty) {
+        this.tryRemoveTokens(this.getTokens());
+      }
+    }
+  }, {
+    key: "restart",
+    value: function restart() {
+      this._isStopped = false;
+    }
+  }, {
+    key: "isStopped",
+    get: function get() {
+      return this._isStopped;
     }
   }]);
 

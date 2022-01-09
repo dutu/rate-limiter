@@ -48,6 +48,36 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _get() {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get;
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+
+      if (desc.get) {
+        return desc.get.call(arguments.length < 3 ? target : receiver);
+      }
+
+      return desc.value;
+    };
+  }
+
+  return _get.apply(this, arguments);
+}
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+
+  return object;
+}
+
 function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
     throw new TypeError("Super expression must either be null or a function");
@@ -141,13 +171,16 @@ var FixedWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
     var _this;
 
     var tokensPerInterval = _ref.tokensPerInterval,
-        interval = _ref.interval;
+        interval = _ref.interval,
+        _ref$stopped = _ref.stopped,
+        stopped = _ref$stopped === void 0 ? false : _ref$stopped;
 
     _classCallCheck(this, FixedWindowLimiter);
 
     _this = _super.call(this, {
       tokensPerInterval: tokensPerInterval,
-      interval: interval
+      interval: interval,
+      stopped: stopped
     });
     _this.nextDripAt = 0;
     return _this;
@@ -156,6 +189,10 @@ var FixedWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
   _createClass(FixedWindowLimiter, [{
     key: "dripTokens",
     value: function dripTokens() {
+      if (this._isStopped) {
+        return;
+      }
+
       this.tokensRemovedAt = [];
 
       if (Date.now() >= this.nextDripAt) {
@@ -180,13 +217,20 @@ var FixedWindowLimiter = /*#__PURE__*/function (_RateLimiter) {
         return 0;
       }
 
+      if (this._isStopped) {
+        return undefined;
+      }
+
       return this.nextDripAt - Date.now();
     }
   }, {
     key: "reset",
     value: function reset() {
+      this._isStopped = false;
       this.nextDripAt = 0;
       this.dripTokens();
+
+      _get(_getPrototypeOf(FixedWindowLimiter.prototype), "reset", this).call(this);
     }
   }]);
 

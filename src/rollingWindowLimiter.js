@@ -1,12 +1,16 @@
 import RateLimiter from './rateLimiter.js'
 
 export class RollingWindowLimiter extends RateLimiter {
-  constructor ({ tokensPerInterval, interval }) {
-    super({ tokensPerInterval, interval })
+  constructor ({ tokensPerInterval, interval, stopped = false }) {
+    super({ tokensPerInterval, interval, stopped })
     this.tokens = this.tokensPerInterval
   }
 
   dripTokens() {
+    if (this._isStopped) {
+      return
+    }
+
     const now = Date.now()
     while (this.tokensRemovedAt.length > 0) {
       if (this.tokensRemovedAt[0][0] + this.interval > now) {
@@ -35,6 +39,10 @@ export class RollingWindowLimiter extends RateLimiter {
       return 0
     }
 
+    if (this._isStopped) {
+      return undefined
+    }
+
     const now  = Date.now()
     for (const newTokens of this.tokensRemovedAt) {
       tokensNeeded -= newTokens[1]
@@ -46,7 +54,9 @@ export class RollingWindowLimiter extends RateLimiter {
   }
 
   reset() {
+    this._isStopped = false
     this.tokensRemovedAt = []
     this.tokens = this.tokensPerInterval
+    super.reset()
   }
 }
