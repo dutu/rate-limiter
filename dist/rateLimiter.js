@@ -224,8 +224,8 @@ var RateLimiter = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "restart",
-    value: function restart() {
+    key: "start",
+    value: function start() {
       this._isStopped = false;
     }
   }, {

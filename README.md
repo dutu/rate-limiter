@@ -52,7 +52,7 @@ const limiter  = new FixedWindowLimiter({ tokensPerInterval, interval, stopped =
 const limiter  = new TokenBucketLimiter({ bucketSize, tokensPerInterval, interval, stopped = false })
 ```
 
-> The rate limiter can be created with initial state 'stopped' and with no tokens, by specifying the parameter `stopped` set to `true` (default is `false`). When stopped, the rate limiter needs to be restarted by calling the method `restart()` 
+> The rate limiter can be created with initial state 'stopped' and with no tokens, by specifying the parameter `stopped` set to `true` (default is `false`). When stopped, the rate limiter needs to be restarted by calling the method `start()` 
 
 ## Properties
 
@@ -86,9 +86,9 @@ Reinitializes the rate limiter, the reservoir is set to the initial size. If the
 
 Stops the rate limiter. Rate limiter will add no more tokens. If parameter `false` is specified, the existing tokens can still be used until exhausted. 
 
-### `restart()`
+### `start()`
 
-Restarts the rate limiter. Adding new tokens is resumed.
+(Re)starts the rate limiter. Adding new tokens is resumed.
 
 ## Quick examples
 

@@ -88,7 +88,7 @@ export default class RateLimiter {
     }
   }
 
-  restart() {
+  start() {
     this._isStopped = false
   }
 
