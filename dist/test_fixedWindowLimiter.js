@@ -118,21 +118,14 @@ describe("awaitTokens()", function () {
           case 11:
             expect(limiter.getTokens()).to.be.equal(0);
             _context.next = 14;
-            return limiter.awaitTokens(2);
-
-          case 14:
-            tokens = _context.sent;
-            expect(limiter.getTokens()).to.be.equal(2);
-            expect(tokens).to.be.equal(2);
-            _context.next = 19;
             return limiter.awaitTokens(8);
 
-          case 19:
+          case 14:
             tokens = _context.sent;
             expect(limiter.getTokens()).to.be.equal(10);
             expect(tokens).to.be.equal(10);
 
-          case 22:
+          case 17:
           case "end":
             return _context.stop();
         }

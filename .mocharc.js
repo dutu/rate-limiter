@@ -1,5 +1,5 @@
 module.exports = {
-  require: ["@babel/register", "@babel/polyfill"],
+  require: ["@babel/register"],
   timeout: 30000,
   exit: true,
 }

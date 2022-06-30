@@ -15,6 +15,12 @@ See [github releases](https://github.com/dutu/rate-limiter/releases), where all 
 npm install --save "git+https://github.com/dutu/rate-limiter.git"
 ```
 
+or 
+
+```
+npm install --save "@dutu/rate-limiter"
+```
+
 # Usage
 
 ```js

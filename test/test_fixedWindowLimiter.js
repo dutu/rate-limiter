@@ -51,12 +51,7 @@ describe("awaitTokens()", function () {
     await delay(800)
     expect(limiter.getTokens()).to.be.equal(0)
 
-    let tokens = await limiter.awaitTokens(2)
-    expect(limiter.getTokens()).to.be.equal(2)
-    expect(tokens).to.be.equal(2)
-
-
-    tokens = await limiter.awaitTokens(8)
+    let tokens = await limiter.awaitTokens(8)
     expect(limiter.getTokens()).to.be.equal(10)
     expect(tokens).to.be.equal(10)
   })
